@@ -34,7 +34,7 @@ func TestGetAPIKey(t *testing.T) {
 				"Authorization": []string{"ApiKey mysecretkey"},
 			},
 			wantKey: "mysecretkey",
-			wantErr: " ",nil
+			wantErr: nil,
 		},
 	}
 
