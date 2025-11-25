@@ -18,5 +18,21 @@ jobs:
         with:
           go-version: "1.23.x"
 
-      - name: Build app
+      - name: Build app binary
         run: bash ./scripts/buildprod.sh
+
+      # --- Authenticate to Google Cloud ---
+      - id: auth
+        name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
+
+      - name: Set up gcloud CLI
+        uses: google-github-actions/setup-gcloud@v3
+
+      # --- Build & Push to Artifact Registry ---
+      - name: Build & Push Docker Image
+        run: |
+          gcloud builds submit \
+            --tag us-central1-docker.pkg.dev/notely-479301/notely-ar-repo/notely:latest .
